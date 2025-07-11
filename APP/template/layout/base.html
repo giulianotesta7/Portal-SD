@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body class="layout-body">
+    <div class="container">
+      <header>
+        {% if user %}
+          <nav>
+            <div class="nav-links">  
+              {% if user.user == "user_RRHH" %}
+              <a href="/formulario_devolucion" class="nav-button home-button"
+                >Formulario de Devolución</a
+              >
+              <a href="/glpi" class="nav-button home-button">Equipamiento Asignado</a>
+              {% else %}
+              <a href="/" class="nav-button home-button">SharePoint</a>
+              <a href="/formulario_entrega" class="nav-button home-button"
+                >Formulario de Entrega</a
+              >
+              <a href="/formulario_devolucion" class="nav-button home-button"
+                >Formulario de Devolución</a
+              >
+              <a href="/stock_1" class="nav-button home-button"
+                >Stock 1</a
+              >
+              <a href="/stock_2" class="nav-button home-button">Stock 2</a>
+              <a href="/leasing" class="nav-button home-button">LEASING</a>
+              <a href="/glpi" class="nav-button home-button">GLPI</a>
+              {% endif %}
+            </div>
+          </nav>
+        {% endif %}
+      </header>
+      <div class="content-wrapper">{% block content %}{% endblock %}</div>
+    </div>
+  </body>
+</html>

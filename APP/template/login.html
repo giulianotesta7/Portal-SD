@@ -1,0 +1,13 @@
+{% extends "layout/base.html" %} {% block title %}Login{% endblock %} {%
+block content %}
+<link rel="stylesheet" href="/static/css/login.css" />
+<form method="post">
+  <input type="text" name="user" placeholder="Usuario" required>
+  <input type="password" name="password" placeholder="Contraseña" required>
+  <button type="submit">Iniciar sesión</button>
+  {% if error %}
+    <p style="color:red;">{{ error }}</p>
+  {% endif %}
+</form>
+
+{% endblock %}

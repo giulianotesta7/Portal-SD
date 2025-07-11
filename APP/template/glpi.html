@@ -1,0 +1,125 @@
+{% extends "layout/base.html" %}
+{% block title %}GLPI{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/glpi.css" />
+<h1>Busqueda de Equipamiento</h1>
+
+<div class="search-row">
+  <!-- Buscar computadora -->
+  <form method="post" class="search-form">
+    <label for="compu">Computadora:</label>
+    <input type="hidden" name="tipo" value="Computer">
+    <input id="compu" type="text" name="nombre" placeholder="Ej: N05029">
+    <button type="submit">BUSCAR</button>
+  </form>
+
+  <!-- Buscar teléfono -->
+  <form method="post" class="search-form">
+    <label for="telefono">Celular:</label>
+    <input type="hidden" name="tipo" value="Phone">
+    <input id="telefono" type="text" name="nombre" placeholder="Ej: CEL0332">
+    <button type="submit">BUSCAR</button>
+  </form>
+
+  <!-- Buscar computadora por colaborador -->
+  <form method="post" class="search-form">
+    <label for="persona">Computadora por Apellido/Nombre:</label>
+    <input type="hidden" name="tipo" value="Colaborador_computer">
+    <input id="persona" type="text" name="nombre" placeholder="Buscar pertenencias...">
+    <button type="submit">BUSCAR</button>
+  </form>
+  <!-- Buscar computadora por celular -->
+    <form method="post" class="search-form">
+    <label for="persona">Celular por Apellido/Nombre:</label>
+    <input type="hidden" name="tipo" value="Colaborador_phone">
+    <input id="persona" type="text" name="nombre" placeholder="Buscar pertenencias...">
+    <button type="submit">BUSCAR</button>
+  </form>
+</div>
+
+
+{% if tipo == "Computer" %}
+    <h2>Resultados de Computadoras</h2>
+    <table>
+        <tr>
+            <th>Nombre</th><th>Fabricante</th><th>Modelo</th><th>Usuario</th>
+            <th>Colaborador</th><th>Dirección</th><th>Gerencia</th><th>Sector</th><th>Estado</th>
+        </tr>
+        {% for item in resultados %}
+        <tr>
+            <td>{{ item["1"] }}</td>
+            <td>{{ item["23"] }}</td>
+            <td>{{ item["40"] }}</td>
+            <td>{{ item["70"] }}</td>
+            <td>{{ item["76671"] }}</td>
+            <td>{{ item["76675"] }}</td>
+            <td>{{ item["76674"] }}</td>
+            <td>{{ item["76673"] }}</td>
+            <td>{{ item["31"] }}</td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+{% elif tipo == "Phone" %}
+    <h2>Resultados de Celulares</h2>
+    <table>
+        <tr>
+            <th>Nombre</th><th>Modelo</th><th>Tipo</th><th>Estado</th><th>Colaborador</th>
+            <th>IMEI</th><th>Línea</th><th>Fecha entrega</th>
+        </tr>
+        {% for item in resultados %}
+        <tr>
+            <td>{{ item["1"] }}</td>
+            <td>{{ item["40"] }}</td>
+            <td>{{ item["4"] }}</td>
+            <td>{{ item["31"] }}</td>
+            <td>{{ item["70"] }}</td>
+            <td>{{ item["76680"] }}</td>
+            <td>{{ item["76681"] }}</td>
+            <td>{{ item["76682"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% elif tipo == "Colaborador_computer" %}
+    <h2>Resultados de Computadoras</h2>
+    <table>
+        <tr>
+            <th>Nombre</th><th>Fabricante</th><th>Modelo</th><th>Usuario</th>
+            <th>Colaborador</th><th>Dirección</th><th>Gerencia</th><th>Sector</th><th>Estado</th>
+        </tr>
+        {% for item in resultados %}
+        <tr>
+            <td>{{ item["1"] }}</td>
+            <td>{{ item["23"] }}</td>
+            <td>{{ item["40"] }}</td>
+            <td>{{ item["70"] }}</td>
+            <td>{{ item["76671"] }}</td>
+            <td>{{ item["76675"] }}</td>
+            <td>{{ item["76674"] }}</td>
+            <td>{{ item["76673"] }}</td>
+            <td>{{ item["31"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% elif tipo == "Colaborador_phone" %}
+    <h2>Resultados de Celulares</h2>
+    <table>
+        <tr>
+            <th>Nombre</th><th>Modelo</th><th>Tipo</th><th>Estado</th><th>Colaborador</th>
+            <th>IMEI</th><th>Línea</th><th>Fecha entrega</th>
+        </tr>
+        {% for item in resultados %}
+        <tr>
+            <td>{{ item["1"] }}</td>
+            <td>{{ item["40"] }}</td>
+            <td>{{ item["4"] }}</td>
+            <td>{{ item["31"] }}</td>
+            <td>{{ item["70"] }}</td>
+            <td>{{ item["76680"] }}</td>
+            <td>{{ item["76681"] }}</td>
+            <td>{{ item["76682"] }}</td>
+        </tr>
+        {% endfor %}    
+{% endif %}
+
+{% endblock %}

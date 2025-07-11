@@ -1,0 +1,35 @@
+{% extends "layout/base.html" %}
+{% block title %}Leasing{% endblock %}
+
+{% block content %}
+<div class="leasing-container">
+  <link rel="stylesheet" href="/static/css/leasing.css">
+  <h1>Leasing - Restantes {{ cantidad }}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Etiqueta</th>
+        <th>Devuelto?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dispositivo in dispositivos %}
+      <tr>
+        <td>{{ dispositivo.usuario }}</td>
+        <td>{{ dispositivo.etiqueta }}</td>
+        <td>
+          {% if dispositivo.devuelto %}
+            Sí
+          {% else %}
+            <form method="POST" action="/marcar_devuelto/{{ dispositivo.id }}">
+              <button type="submit">Devolver</button>
+            </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

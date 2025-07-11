@@ -1,0 +1,196 @@
+{% extends "layout/base.html" %} {% block title %}Formulario de Entrega{%
+endblock %} {% block content %}
+<link rel="stylesheet" href="/static/css/formulario_entrega.css" />
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<div class="signup-container">
+  <div class="signup-card">
+    <h1 class="signup-title">Formulario de Entrega</h1>
+
+    <form
+      method="POST"
+      class="signup-form"
+      onsubmit="return captureSignature()"
+    >
+      <!-- Organismo -->
+      <div class="form-group">
+        <label for="organismo">Organismo:</label>
+        <select name="organismo" id="organismo" required>
+          <option value="stock 1" selected>stock 1</option>
+          <option value="stock 2">stock 2</option>
+        </select>
+      </div>
+
+      <!-- Dispositivo -->
+      <div class="form-group">
+        <label for="dispositivo_id">Dispositivo:</label>
+        <select name="dispositivo_id" id="dispositivo_id" required>
+          {% for dispositivo in dispositivos %}
+          <option
+            value="{{ dispositivo.id }}"
+            data-nombre="{{ dispositivo.nombre }}"
+            data-organismo="{{ dispositivo.organismo | lower }}"
+            data-stock="{{ dispositivo.cantidad }}"
+          >
+            {{ dispositivo.nombre }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Leasing -->
+      <div id="leasing-container" class="form-group" style="display: none">
+        <label><input type="checkbox" name="leasing" /> Leasing</label>
+      </div>
+
+      <!-- Cantidad -->
+      <div class="form-group">
+        <label for="cant_dispositivo">Cantidad:</label>
+        <input
+          type="number"
+          name="cant_dispositivo"
+          id="cant_dispositivo"
+          value="1"
+          min="1"
+          required
+        />
+      </div>
+
+      <!-- Modelo -->
+      <div id="modelo-container" class="form-group" style="display: none">
+        <label for="modelo">Modelo:</label>
+        <input type="text" name="modelo" id="modelo" />
+      </div>
+
+      <!-- Etiqueta -->
+      <div id="etiqueta-container" class="form-group" style="display: block">
+        <label for="etiqueta">Etiqueta:</label>
+        <input type="text" name="etiqueta" id="etiqueta" />
+      </div>
+
+      <!-- Accesorios -->
+      <div class="accesorios-group">
+        {% for i in range(1, 4) %}
+        <div class="accesorio">
+          <label for="accesorio{{ i }}">Accesorio</label>
+          <select name="accesorio{{ i }}" id="accesorio{{ i }}">
+            <option value="">-- Sin accesorio --</option>
+            {% for accesorio in accesorios %}
+            <option
+              value="{{ accesorio.nombre }}"
+              data-organismo="{{ accesorio.organismo | lower }}"
+              data-stock="{{ accesorio.cantidad }}"
+            >
+              {{ accesorio.nombre }}
+            </option>
+            {% endfor %}
+          </select>
+          <input
+            type="number"
+            name="cant_accesorio{{ i }}"
+            placeholder="Cantidad"
+            min="1"
+          />
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Usuario -->
+      <div class="form-group">
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="usuario" required />
+      </div>
+
+      <!-- Técnico -->
+      <div class="form-group">
+        <label for="tecnico">Técnico:</label>
+        <input type="text" name="tecnico" id="tecnico" required />
+      </div>
+
+      <!-- Ticket -->
+      <div class="form-group">
+        <label for="nroTicket">N° de ticket:</label>
+        <input type="text" name="nroTicket" id="nroTicket" />
+      </div>
+
+      <!-- Fecha -->
+      <div class="form-group">
+        <label for="fecha">Fecha:</label>
+        <input
+          type="date"
+          name="fecha"
+          id="fecha"
+          value="{{ fecha_actual }}"
+          required
+        />
+      </div>
+
+      <!-- Observaciones -->
+      <div class="form-group">
+        <label for="observaciones">Observaciones:</label>
+        <textarea name="observaciones" id="observaciones" rows="3"></textarea>
+      </div>
+
+      <!-- Firma -->
+      <div class="form-group">
+        <label for="signature-pad">Firma:</label>
+        <canvas
+          id="signature-pad"
+          width="400"
+          height="150"
+          style="border: 1px solid black"
+        ></canvas>
+        <div class="firma-actions">
+          <button type="button" class="clear-button" onclick="clearSignature()">
+            Limpiar Firma
+          </button>
+        </div>
+      </div>
+
+      <input type="hidden" name="firma" id="firma" />
+
+      <button type="submit" class="signup-button">Registrar entrega</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById("signature-pad");
+
+  function resizeCanvas() {
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = 400 * ratio;
+  canvas.height = 150 * ratio;
+  canvas.style.width = "400px";
+  canvas.style.height = "150px";
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(1, 0, 0, 1, 0, 0); // resetea transformaciones previas
+  ctx.scale(ratio, ratio);
+  } 
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  const signaturePad = new SignaturePad(canvas);
+
+  function clearSignature() {
+    signaturePad.clear();
+  }
+
+  function captureSignature() {
+    if (signaturePad.isEmpty()) {
+      alert("Por favor firme antes de continuar.");
+      return false;
+    }
+    const dataURL = signaturePad.toDataURL();
+    document.getElementById("firma").value = dataURL;
+    return true;
+  }
+</script>
+
+<script src="{{ url_for('static', path='js/checkLeasing.js') }}"></script>
+<script src="{{ url_for('static', path='js/labelEtiqueta.js') }}"></script>
+<script src="{{ url_for('static', path='js/labelModelo.js') }}"></script>
+<script src="{{ url_for('static', path='js/filtrarOrganismo.js') }}"></script>
+<script src="{{ url_for('static', path='js/filtrarAccesorio.js') }}"></script>
+<script src="{{ url_for('static', path='js/validarStock.js') }}"></script>
+{% endblock %}

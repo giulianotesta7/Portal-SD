@@ -1,0 +1,188 @@
+{% extends "layout/base.html" %}
+{% block title %}Formulario de Devolución{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/formulario_devolucion.css">
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<div class="devolucion-container">
+  <div class="devolucion-card">
+    <form class="devolucion-form" method="POST" onsubmit="return captureSignatures()">
+
+      <p>
+        Buenos Aires,
+        <input type="date" name="fecha" required value="{{ fecha_actual }}" />
+      </p>
+
+      <p>
+        <input type="text" name="nombre" placeholder="Nombre completo" required />
+        , Legajo N°
+        <input type="text" name="legajo" style="width: 80px;" placeholder="Legajo" />
+        dejo constancia que el día de la fecha realicé devolución a la empresa EMPRESA, de una
+        <select name="tipo">
+          <option value="NOTEBOOK">NOTEBOOK</option>
+          <option value="DESKTOP">DESKTOP</option>
+          <option value="CELULAR">CELULAR</option>
+        </select>,
+        MARCA:
+        <select name="marca">
+          <option value="LENOVO">LENOVO</option>
+          <option value="DELL">DELL</option>
+          <option value="HP">HP</option>
+          <option value="SAMSUNG">SAMSUNG</option>
+          <option value="MOTOROLA">MOTOROLA</option>
+          <option value="---">---</option>
+        </select>
+        CON N° INTERNO DE MÁQUINA
+        <input type="text" name="nro_etiqueta" style="width: 100px;" />
+        JUNTO CON SU CARGADOR.
+      </p>
+
+      <p>
+        Así como de los siguientes artículos:
+        <textarea name="otros_articulos" rows="2" placeholder="Ej: Mouse, teclado, mochila..."></textarea>,
+        con motivo de la finalización del vínculo laboral que nos unía.
+      </p>
+
+      <strong>FIRMA DEL EMPLEADO:</strong>
+      <div class="form-group">
+        <canvas id="firma_empleado" width="400" height="150"></canvas>
+        <button type="button" onclick="firmaEmpleadoPad.clear()">Limpiar Firma</button>
+      </div>
+      <input type="hidden" name="firma_empleado" id="firma_empleado_input" />
+
+      <p>
+        ACLARACIÓN:
+        <input type="text" name="aclaracion_empleado" placeholder="Nombre completo " />
+      </p>
+
+<p>
+  <strong>FIRMA DEL
+  <select name="rol_receptor" id="rol_receptor" class="select-inline" required>
+    <option value="HRBP">HRBP</option>
+    <option value="LIDER">LIDER</option>
+    <option value="TÉCNICO">TÉCNICO</option>
+  </select>:
+  </strong>
+</p>
+
+
+
+      <div class="form-group">
+        <canvas id="firma_receptor" width="400" height="150"></canvas>
+        <button type="button" onclick="firmaReceptorPad.clear()">Limpiar Firma</button>
+      </div>
+      <input type="hidden" name="firma_receptor" id="firma_receptor_input" />
+
+      <p>
+        ACLARACIÓN:
+        <input type="text" name="aclaracion_receptor" placeholder="Nombre completo" />
+      </p>
+
+      <div class="button">
+        <button type="submit">Registrar Devolución</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const firmaEmpleadoPad = new SignaturePad(document.getElementById("firma_empleado"));
+  const firmaReceptorPad = new SignaturePad(document.getElementById("firma_receptor"));
+
+  function captureSignatures() {
+    if (firmaEmpleadoPad.isEmpty()) {
+      alert("Por favor, firme como empleado.");
+      return false;
+    }
+    if (firmaReceptorPad.isEmpty()) {
+      alert("Por favor, firme como receptor.");
+      return false;
+    }
+
+    document.getElementById("firma_empleado_input").value = firmaEmpleadoPad.toDataURL();
+    document.getElementById("firma_receptor_input").value = firmaReceptorPad.toDataURL();
+    return true;
+  }
+</script>
+<!-- Modal -->
+<div id="emailModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <h3>Enviar comprobante por mail</h3>
+    <label for="mail_usuario">Mail del empleado:</label>
+    <input type="email" id="mail_usuario" required placeholder="empleado@correo.com"><br>
+    <label for="mail_tecnico">Mail del HRBP/TECNICO/LIDER:</label>
+    <input type="email" id="mail_tecnico" required placeholder="HRBP@correo.com.ar"><br>
+    <label for="mail_jefe">Mail del jefe:</label>
+    <input type="email" id="mail_jefe" required placeholder="Jefe@correo.com.ar"><br>
+    <button onclick="confirmarEmails()">Confirmar</button>
+    <button onclick="cerrarModal()">Cancelar</button>
+  </div>
+</div>
+
+<script>
+  function captureSignatures() {
+    if (firmaEmpleadoPad.isEmpty()) {
+      alert("Por favor, firme como empleado.");
+      return false;
+    }
+    if (firmaReceptorPad.isEmpty()) {
+      alert("Por favor, firme como HRBP.");
+      return false;
+    }
+
+    document.getElementById("firma_empleado_input").value = firmaEmpleadoPad.toDataURL();
+    document.getElementById("firma_receptor_input").value = firmaReceptorPad.toDataURL();
+
+    document.getElementById("emailModal").style.display = "block";
+    return false;
+  }
+
+  function cerrarModal() {
+    document.getElementById("emailModal").style.display = "none";
+  }
+
+  function confirmarEmails() {
+    const mailUsuario = document.getElementById("mail_usuario").value;
+    const mailTecnico = document.getElementById("mail_tecnico").value;
+    const mailJefe = document.getElementById("mail_jefe").value;
+
+    if (!mailUsuario || !mailTecnico || !mailJefe) {
+      alert("Completá todos los mails.");
+      return;
+    }
+
+    const form = document.querySelector("form");
+
+    const inputUsuario = document.createElement("input");
+    inputUsuario.type = "hidden";
+    inputUsuario.name = "mail_usuario";
+    inputUsuario.value = mailUsuario;
+
+    const inputTecnico = document.createElement("input");
+    inputTecnico.type = "hidden";
+    inputTecnico.name = "mail_tecnico";
+    inputTecnico.value = mailTecnico;
+
+    const inputJefe = document.createElement("input");
+    inputJefe.type = "hidden";
+    inputJefe.name = "mail_jefe";
+    inputJefe.value = mailJefe;
+
+    form.appendChild(inputUsuario);
+    form.appendChild(inputTecnico);
+    form.appendChild(inputJefe);
+
+    cerrarModal();
+    form.submit();
+  }
+</script>
+
+<style>
+  .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+  .modal-content { background: white; padding: 20px; border-radius: 10px; text-align: center; }
+  .modal-content input { margin-bottom: 10px; width: 80%; padding: 5px; }
+</style>
+
+
+{% endblock %}

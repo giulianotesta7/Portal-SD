@@ -1,0 +1,108 @@
+{% extends "layout/base.html" %}
+{% block title %}Stock 2{% endblock %}
+{% block content %}
+
+<head>
+  <link rel="stylesheet" href="/static/css/stock.css" />
+</head>
+
+<div class="stock-container">
+  <h1>Stock 2</h1>
+
+  <div class="stock-tables-row">
+    
+    <!-- TABLA DE DISPOSITIVOS -->
+    <table class="stock-table">
+      <thead>
+        <tr>
+          <th>Dispositivo</th>
+          <th>Cantidad</th>
+          {% if user.superuser %}
+          <th>Modificar</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for dispositivo in dispositivos %}
+        <tr>
+          <td>{{ dispositivo.nombre }}</td>
+          <td>{{ dispositivo.cantidad }}</td>
+          <td>
+            <form
+              action="/stock_2/update_dispositivo"
+              method="post"
+              style="display: flex; gap: 4px; align-items: center"
+            >
+              <input
+                type="hidden"
+                name="dispositivo_id"
+                value="{{ dispositivo.id }}"
+              />
+              {% if user.superuser %}
+              <input
+                type="number"
+                name="cantidad"
+                min="1"
+                value="1"
+                required
+                style="width: 50px"
+              />
+              <button type="submit" name="action" value="increment">+</button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- TABLA DE CONSUMIBLES -->
+    <table class="stock-table">
+      <thead>
+        <tr>
+          <th>Consumible</th>
+          <th>Cantidad</th>
+          {% if user.superuser %}
+          <th>Modificar</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for consumible in consumibles %}
+        <tr>
+          <td>{{ consumible.nombre }}</td>
+          <td>{{ consumible.cantidad }}</td>
+          <td>
+            <form
+              action="/stock_2/update_consumible"
+              method="post"
+              style="display: flex; gap: 4px; align-items: center"
+            >
+              <input
+                type="hidden"
+                name="consumible_id"
+                value="{{ consumible.id }}"
+              />
+              {% if user.superuser %}
+              <input
+                type="number"
+                name="cantidad"
+                min="1"
+                value="1"
+                required
+                style="width: 50px"
+              /> 
+              <button type="submit" name="action" value="decrement">−</button>
+              <button type="submit" name="action" value="increment">+</button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,220 @@
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.signup-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.signup-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* ↓ antes 30px */
+}
+
+.signup-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 12px; /* ↓ antes 20px */
+    font-size: 20px; /* ↓ antes 24px */
+}
+
+/* Formulario */
+.signup-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px; /* ↓ antes 15px */
+    align-items: start;
+}
+
+/* Grupos de formulario */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px; /* ↓ antes 5px */
+    margin-bottom: 0; /* elimina espacio extra */
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #555;
+    font-size: 13px; /* ↓ antes 14px */
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 6px 10px; /* ↓ antes 8px 12px */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px; /* ↓ antes 14px */
+    height: 30px; /* ↓ antes 36px */
+}
+
+.form-group textarea {
+    height: auto;
+    resize: vertical;
+    min-height: 50px; /* ↓ antes 60px */
+}
+
+/* Grupo de accesorios */
+.accesorios-group {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px; /* ↓ antes 15px */
+    margin: 5px 0; /* ↓ antes 10px 0 */
+    padding: 10px; /* ↓ antes 15px */
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.accesorio {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* ↓ antes 8px */
+}
+
+.accesorio label {
+    font-weight: bold;
+    color: #555;
+    font-size: 13px; /* ↓ antes 14px */
+    text-align: center;
+}
+
+.accesorio select,
+.accesorio input {
+    padding: 5px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12.5px; /* ↓ antes 13px */
+    height: 28px; /* ↓ antes 32px */
+}
+
+.accesorio input[type="number"] {
+    margin-top: 3px; /* ↓ antes 5px */
+}
+
+/* Elementos que ocupan ambas columnas */
+.form-group:has(#observaciones),
+.form-group:has(#signature-pad) {
+    grid-column: 1 / -1;
+}
+
+/* Firma */
+#signature-pad {
+  all: unset;
+  border: 1px solid black;
+  width: 400px;
+  height: 150px;
+  background-color: white;
+  display: block;
+  cursor: crosshair;
+    
+}
+
+button[onclick="clearSignature()"] {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 12px; /* ↓ antes 8px 16px */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px; /* ↓ antes 14px */
+    margin-top: 5px;
+}
+
+button[onclick='clearSignature()']:hover {
+    background-color: #5a6268;
+}
+
+/* Botón de envío */
+.signup-button {
+    grid-column: 1 / -1;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* ↓ antes 12px 24px */
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px; /* ↓ antes 16px */
+    font-weight: bold;
+    margin-top: 10px; /* ↓ antes 15px */
+    transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+    background-color: #0056b3;
+}
+
+/* Checkbox styling para leasing */
+.form-group:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px; /* ↓ antes 8px */
+}
+
+.form-group input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .signup-form {
+        grid-template-columns: 1fr;
+    }
+
+    .accesorios-group {
+        grid-template-columns: 1fr;
+    }
+
+    .signup-card {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+
+    .signup-title {
+        font-size: 18px;
+    }
+
+    #signature-pad {
+        width: 100%;
+        height: 90px;
+    }
+}
+
+.firma-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px; /* ↓ antes 8px */
+}
+
+.clear-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-block;
+    width: auto;
+}
+
+.clear-button:hover {
+    background-color: #5a6268;
+}

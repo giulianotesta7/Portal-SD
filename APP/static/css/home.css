@@ -1,0 +1,238 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+
+.content-wrapper {
+  padding: 40px 20px;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+
+.content-wrapper h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #000;
+  position: relative;
+}
+
+.content-wrapper h1::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #000;
+}
+
+
+.enlaces-frecuentes {
+  margin-top: 40px;
+}
+
+.enlaces-frecuentes h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  padding-left: 10px;
+  border-left: 4px solid #000;
+}
+
+
+.enlaces-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+  justify-content: flex-start;
+}
+
+
+.enlace-item {
+  display: flex;
+  width: 300px;
+  align-items: center;
+  padding: 20px 24px;
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ccc;
+  max-width: 300px;
+}
+
+.enlace-item:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.enlace-item:active {
+  background-color: #444;
+}
+
+.enlace-item:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.enlace-item::before {
+  margin-right: 12px;
+  font-size: 1.2rem;
+}
+
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 20px 15px;
+  }
+
+  .content-wrapper h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  .enlaces-frecuentes h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .enlaces-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+  .enlace-item {
+    padding: 16px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper h1 {
+    font-size: 1.8rem;
+  }
+
+  .enlaces-frecuentes h2 {
+    font-size: 1.3rem;
+  }
+
+  .enlace-item {
+    padding: 14px 18px;
+    font-size: 0.95rem;
+  }
+}
+
+
+@media print {
+  .content-wrapper {
+    padding: 20px;
+  }
+
+  .enlace-item {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+}
+
+
+.enlaces-frecuentes {
+  position: relative;
+}
+
+.enlaces-frecuentes::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #e9ecef, transparent);
+}
+
+
+.enlace-item[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-left: 8px;
+}
+
+.enlace-item:focus-visible {
+  outline: 3px solid #000;
+  outline-offset: 3px;
+}
+
+/* Colores de secciones */
+:root {
+  --color-enlaces: #3498db;
+  --color-excels: #27ae60;
+  --color-pami: #7b1fa9;
+  --color-documentacion: #e74c3c;
+
+}
+
+/* Colores por orden para los títulos */
+.enlaces-frecuentes:nth-of-type(1) h2 {
+  border-left-color: var(--color-enlaces);
+}
+
+.enlaces-frecuentes:nth-of-type(2) h2 {
+  border-left-color: var(--color-excels);
+}
+
+.enlaces-frecuentes:nth-of-type(4) h2 {
+  border-left-color: var(--color-pami);
+}
+
+.enlaces-frecuentes:nth-of-type(3) h2 {
+  border-left-color: var(--color-documentacion);
+}
+
+
+.enlaces-frecuentes:nth-of-type(1) .enlace-item:hover {
+  background-color: var(--color-enlaces);
+  color: #fff;
+  border-color: var(--color-enlaces);
+}
+
+.enlaces-frecuentes:nth-of-type(2) .enlace-item:hover {
+  background-color: var(--color-excels);
+  color: #fff;
+  border-color: var(--color-excels);
+}
+
+.enlaces-frecuentes:nth-of-type(3) .enlace-item:hover {
+  background-color: var(--color-documentacion);
+  color: #fff;
+  border-color: var(--color-documentacion);
+}
+
+.enlaces-frecuentes:nth-of-type(4) .enlace-item:hover {
+  background-color: var(--color-pami);
+  color: #fff;
+  border-color: var(--color-pami);
+}
